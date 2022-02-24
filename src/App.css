@@ -39,3 +39,24 @@
     transform: rotate(360deg);
   }
 }
+
+.td, .td-films, .td-planetUrl, th {
+  border: 1px solid black;
+}
+
+.td {
+  text-align: center;
+  /* background-color: rgb(192, 192, 192); */
+}
+
+tr {
+  background-color: none;
+}
+
+/* .td-films {
+
+}
+
+.td-planetUrl {
+
+} */
