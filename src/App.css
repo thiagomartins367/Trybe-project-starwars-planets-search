@@ -67,6 +67,12 @@ tr {
   display: inline-block;
 }
 
+.filter {
+  border-bottom: 3px solid blue;
+  display: inline-block;
+  margin-left: 20px;
+}
+
 /* .td-films {
 
 }

@@ -35,18 +35,32 @@ const ContextProvider = ({ children }) => {
 
   const [stateFilterByNumericValue, setFilterByNumericValues] = useState({
     createdFilter: {
+      id: 0,
       columnFilter: 'population',
       comparisonFilter: 'maior que',
       valueFilter: 0,
     },
-    filterByNumericValues: []
-  })
+    filterByNumericValues: [],
+  });
+
+  const [idFilterToBeDeleted, setIdFilterToBeDeleted] = useState(0);
+
+  const [tableSort, setTableSort] = useState({
+    activeSorting: false,
+    order: {
+      column: 'population',
+      sort: 'ASC',
+    }
+  });
 
   useEffect(() => {
     FetchApi('https://swapi-trybe.herokuapp.com/api/planets/')
       .then((data) => {
-        setPlanets(data.results);
-        setFilteredPlanets(data.results);
+        const dataResults = data.results.concat();
+        dataResults.sort((a, b) => a.name.localeCompare(b.name)); // <--- | Essa linha de código foi retirada do stack overflow.
+        setPlanets(dataResults); // Link stack overflow: https://pt.stackoverflow.com/questions/46600/como-ordenar-uma-array-de-objetos-com-array-sort
+        setFilteredPlanets(dataResults);
+        // console.log('dataResults: ', dataResults);
       });
   }, []);
 
@@ -103,8 +117,65 @@ const ContextProvider = ({ children }) => {
         editableColumnFilterOptions: filteredColumnFilterOptions,
       }));
       setFilteredPlanets(filteredPlanets);
+    } else {
+      setFilteredPlanets(planets);
+      setOptionsForFilters((prevState) => ({
+        ...prevState,
+        editableColumnFilterOptions: prevState.columnFilterOptions,
+      }));
     }
   }, [stateFilterByNumericValue, planets]);
+
+  useEffect(() => {
+    // console.log('idFilterToBeDeleted: ', idFilterToBeDeleted);
+    const { filterByNumericValues } = stateFilterByNumericValue;
+    const updatedFilterList = filterByNumericValues.filter(
+      (filter) => filter.id !== idFilterToBeDeleted,
+    );
+    setFilterByNumericValues((prevState) => ({
+      ...prevState,
+      filterByNumericValues: updatedFilterList,
+    }));
+  }, [idFilterToBeDeleted]);
+
+  useEffect(() => {
+    const { activeSorting, order: { column, sort } } = tableSort;
+    if (activeSorting) {
+      const sortByTableColumn = filteredPlanets.concat();
+      const tableColumnValues = [];
+      sortByTableColumn.forEach((planet) => {
+        if (planet[column] !== 'unknown') {
+          tableColumnValues.push(Number(planet[column]));
+        }
+      });
+      const highestValueInArray = Math.max(...tableColumnValues) + 1;
+      const smallestValueInArray = Math.min(...tableColumnValues) - 1;
+      // console.log('highestValueInArray: ', highestValueInArray);
+      // console.log('smallestValueInArray: ', smallestValueInArray);
+      switch (sort) {
+        case 'ASC':
+          sortByTableColumn.sort((elementA, elementB) => {
+            const elementA_Value = elementA[column] !== 'unknown' ? elementA[column] : highestValueInArray;
+            const elementB_Value = elementB[column] !== 'unknown' ? elementB[column] : highestValueInArray;
+            return elementA_Value - elementB_Value
+          });
+          break;
+        case 'DESC':
+          // sortByTableColumn.sort((elementA, elementB) => elementB[column] - elementA[column]);
+          sortByTableColumn.sort((elementA, elementB) => {
+            const elementA_Value = elementA[column] !== 'unknown' ? elementA[column] : smallestValueInArray;
+            const elementB_Value = elementB[column] !== 'unknown' ? elementB[column] : smallestValueInArray;
+            return elementB_Value - elementA_Value;
+          });
+          break;
+      }
+      setFilteredPlanets(sortByTableColumn);
+      setTableSort((prevState) => ({
+        ...prevState,
+        activeSorting: false,
+      }));
+    }
+  }, [tableSort]);
 
   const context = {
     data: planets,
@@ -117,6 +188,10 @@ const ContextProvider = ({ children }) => {
     setOptionsForFilters,
     stateFilterByNumericValue,
     setFilterByNumericValues,
+    idFilterToBeDeleted,
+    setIdFilterToBeDeleted,
+    tableSort,
+    setTableSort,
   };
   return (
     <Context.Provider value={ context }>

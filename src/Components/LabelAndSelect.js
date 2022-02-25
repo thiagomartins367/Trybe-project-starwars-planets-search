@@ -6,13 +6,13 @@ const LabelAndSelect = ({
   onChangeEvent,
   optionsContent,
   classNameComponent,
-  dataTestId
+  selectDataTestId,
 }) => {
   return (
     <div className={ classNameComponent }>
       <label htmlFor={ selectId }>{ labelContent }</label>
       <br />
-      <select id={ selectId } onChange={ onChangeEvent } data-testid={ dataTestId }>
+      <select id={ selectId } onChange={ onChangeEvent } data-testid={ selectDataTestId }>
         {
           optionsContent.map((element) => (
             <option key={ element }>{ element }</option>
