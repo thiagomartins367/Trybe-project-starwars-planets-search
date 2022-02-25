@@ -54,6 +54,19 @@ tr {
   background-color: none;
 }
 
+.section-filters {
+  display: flex;
+  width: 50%;
+  justify-content: space-evenly
+}
+
+.component-name-filter,
+.component-column-filter,
+.component-comparison-filter,
+.component-value-filter {
+  display: inline-block;
+}
+
 /* .td-films {
 
 }

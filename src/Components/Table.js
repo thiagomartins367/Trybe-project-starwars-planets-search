@@ -1,11 +1,20 @@
 import React, { useContext } from 'react';
 import Context from '../Context/Context';
 import LabelAndInput from './LabelAndInput';
+import LabelAndSelect from './LabelAndSelect';
 
 const Table = () => {
-  const { filteredPlanets, setFilterByName } = useContext(Context);
+  const {
+    filteredPlanets,
+    setFilterByName,
+    optionsForFilters,
+    setFilterByNumericValues,
+    stateFilterByNumericValue: { createdFilter },
+    stateFilterByName: { filterByName },
+  } = useContext(Context);
   // console.log('dataPlanets in Tabale: ', filteredPlanets);
-  // console.log(' stateFilterByName: ',  filterStates);
+  // console.log(' stateFilterByName: ',  stateFilterByName);
+  // console.log('createdFilter: ', createdFilter);
   let trColor = false;
   const alternatingColors = () => {
     trColor = !trColor;
@@ -13,11 +22,13 @@ const Table = () => {
   };
   return (
     <section>
-      <section>
+      <section className="section-filters">
         <LabelAndInput
           labelContent="Nome Planeta"
           inputType="text"
           inputId="name-filter"
+          inputValue={ filterByName.name }
+          classNameComponent="component-name-filter"
           onChangeEvent={
             ({ target: { value } }) => setFilterByName((prevState) => ({
               ...prevState,
@@ -26,6 +37,64 @@ const Table = () => {
           }
           dataTestId="name-filter"
         />
+        <LabelAndSelect
+          labelContent="Ordenar"
+          selectId="column-filter"
+          classNameComponent="component-column-filter"
+          onChangeEvent={
+            ({ target: { value } }) => setFilterByNumericValues((prevState) => ({
+              ...prevState,
+              createdFilter: {
+                ...prevState.createdFilter,
+                columnFilter: value,
+              }
+            }))
+          }
+          optionsContent={ optionsForFilters.editableColumnFilterOptions }
+          dataTestId="column-filter"
+        />
+        <LabelAndSelect
+          labelContent="Operador"
+          selectId="comparison-filter"
+          classNameComponent="component-comparison-filter"
+          onChangeEvent={
+            ({ target: { value } }) => setFilterByNumericValues((prevState) => ({
+              ...prevState,
+              createdFilter: {
+                ...prevState.createdFilter,
+                comparisonFilter: value,
+              }
+            }))
+          }
+          optionsContent={ optionsForFilters.comparisonFilterOptions }
+          dataTestId="comparison-filter"
+        />
+        <LabelAndInput
+          labelContent="Valor para o Operador"
+          inputType="number"
+          inputId="value-filter"
+          inputValue={ createdFilter.valueFilter }
+          classNameComponent="component-value-filter"
+          onChangeEvent={
+            ({ target: { value } }) => setFilterByNumericValues((prevState) => ({
+              ...prevState,
+              createdFilter: {
+                ...prevState.createdFilter,
+                valueFilter: Number(value),
+              }
+            }))
+          }
+          dataTestId="value-filter"
+        />
+        <button type="button" onClick={ () => {
+          setFilterByNumericValues((prevState) => ({
+            ...prevState,
+            filterByNumericValues: [
+              ...prevState.filterByNumericValues,
+              createdFilter,
+            ]
+          }));
+        }} data-testid='button-filter'>Filtrar</button>
       </section>
       <br />
       <table>

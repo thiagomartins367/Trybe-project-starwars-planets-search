@@ -5,15 +5,18 @@ const LabelAndInput = ({
   labelContent,
   inputType,
   inputId,
+  inputValue,
   onChangeEvent,
+  classNameComponent,
   dataTestId,
 }) => (
-  <div>
+  <div className={ classNameComponent }>
     <label htmlFor={ inputId }>{ labelContent }</label>
     <br />
     <input
       type={ inputType }
       id={ inputId }
+      value={ inputValue }
       onChange={ onChangeEvent }
       data-testid={ dataTestId }
     />
