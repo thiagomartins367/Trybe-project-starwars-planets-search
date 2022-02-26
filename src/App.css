@@ -60,7 +60,19 @@ tr {
   width: 50%;
 }
 
-.component-name-filter, .component-column-filter, .component-comparison-filter, .component-value-filter {
+.component-name-filter {
+  display: inline-block;
+}
+
+.component-column-filter {
+  display: inline-block;
+}
+
+.component-comparison-filter {
+  display: inline-block;
+}
+
+.component-value-filter {
   display: inline-block;
 }
 
