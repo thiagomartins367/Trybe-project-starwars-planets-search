@@ -56,13 +56,13 @@ tr {
 
 .section-filters {
   display: flex;
+  justify-content: space-evenly;
   width: 50%;
-  justify-content: space-evenly
 }
 
-.component-name-filter,
-.component-column-filter,
-.component-comparison-filter,
+.component-name-filter ,
+.component-column-filter ,
+.component-comparison-filter ,
 .component-value-filter {
   display: inline-block;
 }
