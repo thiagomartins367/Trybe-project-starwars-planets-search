@@ -9,21 +9,18 @@ const Table = () => {
   const {
     filteredPlanets,
     setFilterByName,
-    optionsForFilters: { columnFilterOptions, editableColumnFilterOptions, comparisonFilterOptions },
+    optionsForFilters: {
+      columnFilterOptions,
+      editableColumnFilterOptions,
+      comparisonFilterOptions,
+    },
     setFilterByNumericValues,
     stateFilterByNumericValue: { createdFilter, filterByNumericValues },
     stateFilterByName: { filterByName },
     setIdFilterToBeDeleted,
-    tableSort,
     setTableSort,
   } = useContext(Context);
-  // console.log('dataPlanets in Tabale: ', filteredPlanets);
-  // console.log(' stateFilterByName: ',  stateFilterByName);
-  // // console.log('createdFilter: ', createdFilter);
-  // console.log('filterByNumericValues: ', filterByNumericValues);
-  // console.log('tableSort: ', tableSort);
   let trColor = false;
-  const filterNames = [];
   const alternatingColors = () => {
     trColor = !trColor;
     return trColor;
@@ -35,68 +32,68 @@ const Table = () => {
           labelContent="Nome Planeta"
           inputType="text"
           inputId="name-filter"
-          inputValue={filterByName.name}
+          inputValue={ filterByName.name }
           classNameComponent="component-name-filter"
-          onChangeEvent={({ target: { value } }) =>
+          onChangeEvent={ ({ target: { value } }) => {
             setFilterByName((prevState) => ({
               ...prevState,
               filterByName: { name: value.toLowerCase() },
-            }))
-          }
+            }));
+          } }
           dataTestId="name-filter"
         />
         <LabelAndSelect
           labelContent="Coluna"
           selectId="column-filter"
           classNameComponent="component-column-filter"
-          onChangeEvent={({ target: { value } }) =>
+          onChangeEvent={ ({ target: { value } }) => {
             setFilterByNumericValues((prevState) => ({
               ...prevState,
               createdFilter: {
                 ...prevState.createdFilter,
                 columnFilter: value,
               },
-            }))
-          }
-          optionsContent={editableColumnFilterOptions}
+            }));
+          } }
+          optionsContent={ editableColumnFilterOptions }
           selectDataTestId="column-filter"
         />
         <LabelAndSelect
           labelContent="Operador"
           selectId="comparison-filter"
           classNameComponent="component-comparison-filter"
-          onChangeEvent={({ target: { value } }) =>
+          onChangeEvent={ ({ target: { value } }) => {
             setFilterByNumericValues((prevState) => ({
               ...prevState,
               createdFilter: {
                 ...prevState.createdFilter,
                 comparisonFilter: value,
               },
-            }))
-          }
-          optionsContent={comparisonFilterOptions}
+            }));
+          } }
+          optionsContent={ comparisonFilterOptions }
           selectDataTestId="comparison-filter"
         />
         <LabelAndInput
           labelContent="Valor para o Operador"
           inputType="number"
           inputId="value-filter"
-          inputValue={createdFilter.valueFilter}
+          inputValue={ createdFilter.valueFilter }
           classNameComponent="component-value-filter"
-          onChangeEvent={({ target: { value } }) =>
+          onChangeEvent={ ({ target: { value } }) => {
             setFilterByNumericValues((prevState) => ({
               ...prevState,
               createdFilter: {
                 ...prevState.createdFilter,
                 valueFilter: Number(value),
               },
-            }))
-          }
+            }));
+          } }
           dataTestId="value-filter"
         />
         <button
           type="button"
-          onClick={() => {
+          onClick={ () => {
             setFilterByNumericValues((prevState) => ({
               ...prevState,
               createdFilter: {
@@ -114,7 +111,7 @@ const Table = () => {
                 },
               ],
             }));
-          }}
+          } }
           data-testid="button-filter"
         >
           Filtrar
@@ -125,7 +122,7 @@ const Table = () => {
         <LabelAndSelect
           labelContent="Ordenar por: "
           selectId="column-sort"
-          onChangeEvent={({ target: { value } }) => {
+          onChangeEvent={ ({ target: { value } }) => {
             setTableSort((prevState) => ({
               ...prevState,
               order: {
@@ -133,24 +130,24 @@ const Table = () => {
                 column: value,
               },
             }));
-          }}
-          optionsContent={columnFilterOptions}
+          } }
+          optionsContent={ columnFilterOptions }
           selectDataTestId="column-sort"
         />
         <br />
         <LabelAndRadioButtons
           nameInputs="nameInput"
-          inputsContents={["Ascendente", "Descendente"]}
-          onClickEvent={({ target: { value } }) => {
+          inputsContents={ ['Ascendente', 'Descendente'] }
+          onClickEvent={ ({ target: { value } }) => {
             // console.log('radioButtonValue: ', value);
             setTableSort((prevState) => ({
               ...prevState,
               order: {
                 ...prevState.order,
-                sort: value === "Ascendente" ? "ASC" : "DESC",
+                sort: value === 'Ascendente' ? 'ASC' : 'DESC',
               },
             }));
-          }}
+          } }
           inputsDataTestIds={ ['column-sort-input-asc', 'column-sort-input-desc'] }
         />
         <button
@@ -168,19 +165,20 @@ const Table = () => {
       </section>
       <br />
       <ActiveFilters
-        filters={filterByNumericValues}
-        filtersDataTestIds={["filter"]}
-        classNameFilter={["filter"]}
-        setIdFilterToBeDeleted={setIdFilterToBeDeleted}
+        filters={ filterByNumericValues }
+        filtersDataTestIds={ ['filter'] }
+        classNameFilter={ ['filter'] }
+        setIdFilterToBeDeleted={ setIdFilterToBeDeleted }
       />
       <br />
       <button
-        onClick={() => {
+        type="button"
+        onClick={ () => {
           setFilterByNumericValues((prevState) => ({
             ...prevState,
             filterByNumericValues: [],
           }));
-        }}
+        } }
         data-testid="button-remove-filters"
       >
         REMOVER FILTROS
@@ -208,35 +206,35 @@ const Table = () => {
         <tbody>
           {filteredPlanets.map((planet) => (
             <tr
-              key={planet.name}
-              style={{
+              key={ planet.name }
+              style={ {
                 backgroundColor: alternatingColors()
-                  ? "rgb(192, 192, 192)"
-                  : "wite",
-              }}
+                  ? 'rgb(192, 192, 192)'
+                  : 'wite',
+              } }
             >
               <td className="td" data-testid="planet-name">
-                {planet.name}
+                { planet.name }
               </td>
-              <td className="td">{planet.rotation_period}</td>
-              <td className="td">{planet.orbital_period}</td>
-              <td className="td">{planet.diameter}</td>
-              <td className="td">{planet.climate}</td>
-              <td className="td">{planet.gravity}</td>
-              <td className="td">{planet.terrain}</td>
-              <td className="td">{planet.surface_water}</td>
-              <td className="td">{planet.population}</td>
+              <td className="td">{ planet.rotation_period }</td>
+              <td className="td">{ planet.orbital_period }</td>
+              <td className="td">{ planet.diameter }</td>
+              <td className="td">{ planet.climate }</td>
+              <td className="td">{ planet.gravity }</td>
+              <td className="td">{ planet.terrain }</td>
+              <td className="td">{ planet.surface_water }</td>
+              <td className="td">{ planet.population }</td>
               <td className="td-films">
                 {planet.films.map((url) => (
-                  <span key={url}>
-                    <a href={url}>{url}</a>
+                  <span key={ url }>
+                    <a href={ url }>{url }</a>
                   </span>
                 ))}
               </td>
-              <td className="td">{planet.created}</td>
-              <td className="td">{planet.edited}</td>
+              <td className="td">{ planet.created }</td>
+              <td className="td">{ planet.edited }</td>
               <td className="td-planetUrl">
-                <a href={planet.url}>{planet.url}</a>
+                <a href={ planet.url }>{ planet.url }</a>
               </td>
             </tr>
           ))}

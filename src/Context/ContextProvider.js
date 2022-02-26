@@ -50,7 +50,7 @@ const ContextProvider = ({ children }) => {
     order: {
       column: 'population',
       sort: 'ASC',
-    }
+    },
   });
 
   useEffect(() => {
@@ -82,29 +82,28 @@ const ContextProvider = ({ children }) => {
   useEffect(() => {
     const { filterByNumericValues } = stateFilterByNumericValue;
     if (filterByNumericValues.length > 0) {
-      let filteredPlanets = planets;
+      let editableFilteredPlanets = planets;
       let filteredColumnFilterOptions = optionsForFilters.columnFilterOptions;
       filterByNumericValues.forEach((filters) => {
         const { columnFilter, comparisonFilter, valueFilter } = filters;
         switch (comparisonFilter) {
-          case 'maior que':
-            filteredPlanets = filteredPlanets.filter(
-              (planet) => planet[columnFilter] > valueFilter
-            );
-            break;
-          case 'menor que':
-            filteredPlanets = filteredPlanets.filter(
-              (planet) => planet[columnFilter] < valueFilter
-            );
-            break;
-          case 'igual a':
-            filteredPlanets = filteredPlanets.filter(
-              (planet) => {
-                // console.log(Number(planet[columnFilter]));
-                return Number(planet[columnFilter]) === valueFilter
-              }
-            );
-            break;
+        case 'maior que':
+          editableFilteredPlanets = editableFilteredPlanets.filter(
+            (planet) => planet[columnFilter] > valueFilter,
+          );
+          break;
+        case 'menor que':
+          editableFilteredPlanets = editableFilteredPlanets.filter(
+            (planet) => planet[columnFilter] < valueFilter,
+          );
+          break;
+        case 'igual a':
+          editableFilteredPlanets = editableFilteredPlanets.filter(
+            (planet) => Number(planet[columnFilter]) === valueFilter,
+          );
+          break;
+        default:
+          break;
         }
         // console.log('comparisonFilter: ', columnFilter);
         filteredColumnFilterOptions = filteredColumnFilterOptions.filter(
@@ -116,7 +115,7 @@ const ContextProvider = ({ children }) => {
         ...prevState,
         editableColumnFilterOptions: filteredColumnFilterOptions,
       }));
-      setFilteredPlanets(filteredPlanets);
+      setFilteredPlanets(editableFilteredPlanets);
     } else {
       setFilteredPlanets(planets);
       setOptionsForFilters((prevState) => ({
@@ -128,15 +127,18 @@ const ContextProvider = ({ children }) => {
 
   useEffect(() => {
     // console.log('idFilterToBeDeleted: ', idFilterToBeDeleted);
-    const { filterByNumericValues } = stateFilterByNumericValue;
-    const updatedFilterList = filterByNumericValues.filter(
-      (filter) => filter.id !== idFilterToBeDeleted,
-    );
-    setFilterByNumericValues((prevState) => ({
-      ...prevState,
-      filterByNumericValues: updatedFilterList,
-    }));
-  }, [idFilterToBeDeleted]);
+    if (idFilterToBeDeleted !== 0) {
+      const { filterByNumericValues } = stateFilterByNumericValue;
+      const updatedFilterList = filterByNumericValues.filter(
+        (filter) => filter.id !== idFilterToBeDeleted,
+      );
+      setFilterByNumericValues((prevState) => ({
+        ...prevState,
+        filterByNumericValues: updatedFilterList,
+      }));
+      // setIdFilterToBeDeleted(0);
+    }
+  }, [idFilterToBeDeleted]); // Não insira mais nenhum estado aqui por enquanto !
 
   useEffect(() => {
     const { activeSorting, order: { column, sort } } = tableSort;
@@ -153,21 +155,30 @@ const ContextProvider = ({ children }) => {
       // console.log('highestValueInArray: ', highestValueInArray);
       // console.log('smallestValueInArray: ', smallestValueInArray);
       switch (sort) {
-        case 'ASC':
-          sortByTableColumn.sort((elementA, elementB) => {
-            const elementA_Value = elementA[column] !== 'unknown' ? elementA[column] : highestValueInArray;
-            const elementB_Value = elementB[column] !== 'unknown' ? elementB[column] : highestValueInArray;
-            return elementA_Value - elementB_Value
-          });
-          break;
-        case 'DESC':
-          // sortByTableColumn.sort((elementA, elementB) => elementB[column] - elementA[column]);
-          sortByTableColumn.sort((elementA, elementB) => {
-            const elementA_Value = elementA[column] !== 'unknown' ? elementA[column] : smallestValueInArray;
-            const elementB_Value = elementB[column] !== 'unknown' ? elementB[column] : smallestValueInArray;
-            return elementB_Value - elementA_Value;
-          });
-          break;
+      case 'ASC':
+        sortByTableColumn.sort((elementA, elementB) => {
+          const elementAValue = elementA[column] !== 'unknown'
+            ? elementA[column]
+            : highestValueInArray;
+          const elementBValue = elementB[column] !== 'unknown'
+            ? elementB[column]
+            : highestValueInArray;
+          return elementAValue - elementBValue;
+        });
+        break;
+      case 'DESC':
+        sortByTableColumn.sort((elementA, elementB) => {
+          const elementAValue = elementA[column] !== 'unknown'
+            ? elementA[column]
+            : smallestValueInArray;
+          const elementBValue = elementB[column] !== 'unknown'
+            ? elementB[column]
+            : smallestValueInArray;
+          return elementBValue - elementAValue;
+        });
+        break;
+      default:
+        break;
       }
       setFilteredPlanets(sortByTableColumn);
       setTableSort((prevState) => ({

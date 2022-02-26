@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const LabelAndSelect = ({
   labelContent,
@@ -7,20 +8,33 @@ const LabelAndSelect = ({
   optionsContent,
   classNameComponent,
   selectDataTestId,
-}) => {
-  return (
-    <div className={ classNameComponent }>
-      <label htmlFor={ selectId }>{ labelContent }</label>
-      <br />
-      <select id={ selectId } onChange={ onChangeEvent } data-testid={ selectDataTestId }>
-        {
-          optionsContent.map((element) => (
-            <option key={ element }>{ element }</option>
-          ))
-        }
-      </select>
-    </div>
-  );
-}
+}) => (
+  <div className={ classNameComponent }>
+    <label htmlFor={ selectId }>{ labelContent }</label>
+    <br />
+    <select id={ selectId } onChange={ onChangeEvent } data-testid={ selectDataTestId }>
+      {
+        optionsContent.map((element) => (
+          <option key={ element }>{ element }</option>
+        ))
+      }
+    </select>
+  </div>
+);
+
+LabelAndSelect.propTypes = {
+  labelContent: PropTypes.string.isRequired,
+  selectId: PropTypes.string.isRequired,
+  onChangeEvent: PropTypes.string,
+  optionsContent: PropTypes.string.isRequired,
+  classNameComponent: PropTypes.string,
+  selectDataTestId: PropTypes.string,
+};
+
+LabelAndSelect.defaultProps = {
+  onChangeEvent: () => '',
+  classNameComponent: '',
+  selectDataTestId: '',
+};
 
 export default LabelAndSelect;
