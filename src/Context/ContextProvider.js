@@ -6,14 +6,14 @@ import Context from './Context';
 const ContextProvider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
+  const [columnFilterOptions, setcolumnFilterOptions] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
   const [optionsForFilters, setOptionsForFilters] = useState({
-    columnFilterOptions: [
-      'population',
-      'orbital_period',
-      'diameter',
-      'rotation_period',
-      'surface_water',
-    ],
     editableColumnFilterOptions: [
       'population',
       'orbital_period',
@@ -83,7 +83,7 @@ const ContextProvider = ({ children }) => {
     const { filterByNumericValues } = stateFilterByNumericValue;
     if (filterByNumericValues.length > 0) {
       let editableFilteredPlanets = planets;
-      let filteredColumnFilterOptions = optionsForFilters.columnFilterOptions;
+      let filteredColumnFilterOptions = columnFilterOptions.concat();
       filterByNumericValues.forEach((filters) => {
         const { columnFilter, comparisonFilter, valueFilter } = filters;
         switch (comparisonFilter) {
@@ -105,11 +105,9 @@ const ContextProvider = ({ children }) => {
         default:
           break;
         }
-        // console.log('comparisonFilter: ', columnFilter);
         filteredColumnFilterOptions = filteredColumnFilterOptions.filter(
           (filterParam) => filterParam !== columnFilter,
         );
-        // console.log('filteredColumnFilterOptions: ', filteredColumnFilterOptions);
       });
       setOptionsForFilters((prevState) => ({
         ...prevState,
@@ -120,30 +118,60 @@ const ContextProvider = ({ children }) => {
       setFilteredPlanets(planets);
       setOptionsForFilters((prevState) => ({
         ...prevState,
-        editableColumnFilterOptions: prevState.columnFilterOptions,
+        editableColumnFilterOptions: columnFilterOptions,
       }));
     }
-  }, [stateFilterByNumericValue, planets]);
-
-  useEffect(() => {
-    // console.log('idFilterToBeDeleted: ', idFilterToBeDeleted);
     if (idFilterToBeDeleted !== 0) {
-      const { filterByNumericValues } = stateFilterByNumericValue;
-      const updatedFilterList = filterByNumericValues.filter(
-        (filter) => filter.id !== idFilterToBeDeleted,
-      );
       setFilterByNumericValues((prevState) => ({
         ...prevState,
-        filterByNumericValues: updatedFilterList,
+        filterByNumericValues: filterByNumericValues.filter(
+          (filter) => filter.id !== idFilterToBeDeleted,
+        ),
       }));
-      // setIdFilterToBeDeleted(0);
+      setIdFilterToBeDeleted(0);
     }
-  }, [idFilterToBeDeleted]); // Não insira mais nenhum estado aqui por enquanto !
+  }, [stateFilterByNumericValue, planets, idFilterToBeDeleted, columnFilterOptions]);
+
+  const searchOrdenation = ({
+    sortByTableColumn,
+    column,
+    sort,
+    highestValueInArray,
+    smallestValueInArray,
+  }) => {
+    switch (sort) {
+    case 'ASC':
+      sortByTableColumn.sort((elementA, elementB) => {
+        const elementAValue = elementA[column] !== 'unknown'
+          ? elementA[column]
+          : highestValueInArray;
+        const elementBValue = elementB[column] !== 'unknown'
+          ? elementB[column]
+          : highestValueInArray;
+        return elementAValue - elementBValue;
+      });
+      break;
+    case 'DESC':
+      sortByTableColumn.sort((elementA, elementB) => {
+        const elementAValue = elementA[column] !== 'unknown'
+          ? elementA[column]
+          : smallestValueInArray;
+        const elementBValue = elementB[column] !== 'unknown'
+          ? elementB[column]
+          : smallestValueInArray;
+        return elementBValue - elementAValue;
+      });
+      break;
+    default:
+      break;
+    }
+    return sortByTableColumn;
+  };
 
   useEffect(() => {
     const { activeSorting, order: { column, sort } } = tableSort;
     if (activeSorting) {
-      const sortByTableColumn = filteredPlanets.concat();
+      let sortByTableColumn = filteredPlanets.concat();
       const tableColumnValues = [];
       sortByTableColumn.forEach((planet) => {
         if (planet[column] !== 'unknown') {
@@ -152,41 +180,21 @@ const ContextProvider = ({ children }) => {
       });
       const highestValueInArray = Math.max(...tableColumnValues) + 1;
       const smallestValueInArray = Math.min(...tableColumnValues) - 1;
-      // console.log('highestValueInArray: ', highestValueInArray);
-      // console.log('smallestValueInArray: ', smallestValueInArray);
-      switch (sort) {
-      case 'ASC':
-        sortByTableColumn.sort((elementA, elementB) => {
-          const elementAValue = elementA[column] !== 'unknown'
-            ? elementA[column]
-            : highestValueInArray;
-          const elementBValue = elementB[column] !== 'unknown'
-            ? elementB[column]
-            : highestValueInArray;
-          return elementAValue - elementBValue;
-        });
-        break;
-      case 'DESC':
-        sortByTableColumn.sort((elementA, elementB) => {
-          const elementAValue = elementA[column] !== 'unknown'
-            ? elementA[column]
-            : smallestValueInArray;
-          const elementBValue = elementB[column] !== 'unknown'
-            ? elementB[column]
-            : smallestValueInArray;
-          return elementBValue - elementAValue;
-        });
-        break;
-      default:
-        break;
-      }
+      const paramForSearchOrdenation = {
+        sortByTableColumn,
+        column,
+        sort,
+        highestValueInArray,
+        smallestValueInArray,
+      };
+      sortByTableColumn = searchOrdenation(paramForSearchOrdenation);
       setFilteredPlanets(sortByTableColumn);
       setTableSort((prevState) => ({
         ...prevState,
         activeSorting: false,
       }));
     }
-  }, [tableSort]);
+  }, [tableSort, filteredPlanets]);
 
   const context = {
     data: planets,
@@ -195,6 +203,8 @@ const ContextProvider = ({ children }) => {
     setFilteredPlanets,
     stateFilterByName,
     setFilterByName,
+    columnFilterOptions,
+    setcolumnFilterOptions,
     optionsForFilters,
     setOptionsForFilters,
     stateFilterByNumericValue,

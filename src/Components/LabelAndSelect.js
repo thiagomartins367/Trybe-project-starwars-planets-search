@@ -25,8 +25,8 @@ const LabelAndSelect = ({
 LabelAndSelect.propTypes = {
   labelContent: PropTypes.string.isRequired,
   selectId: PropTypes.string.isRequired,
-  onChangeEvent: PropTypes.string,
-  optionsContent: PropTypes.string.isRequired,
+  onChangeEvent: PropTypes.func,
+  optionsContent: PropTypes.arrayOf(PropTypes.string).isRequired,
   classNameComponent: PropTypes.string,
   selectDataTestId: PropTypes.string,
 };

@@ -14,9 +14,13 @@ const ActiveFilters = ({
       return (
         <div
           key={ `${nameFilter}-${id}` }
-          className={ classNameFilter }
+          className={
+            classNameFilter.length === filters.length
+              ? classNameFilter[index]
+              : classNameFilter[0]
+          }
           data-testid={
-            filtersDataTestIds.length > 1
+            filtersDataTestIds.length === filters.length
               ? filtersDataTestIds[index]
               : filtersDataTestIds[0]
           }
@@ -37,13 +41,13 @@ ActiveFilters.propTypes = {
     valueFilter: PropTypes.number,
   })).isRequired,
   filtersDataTestIds: PropTypes.arrayOf(PropTypes.string),
-  classNameFilter: PropTypes.string,
+  classNameFilter: PropTypes.arrayOf(PropTypes.string),
   setIdFilterToBeDeleted: PropTypes.func.isRequired,
 };
 
 ActiveFilters.defaultProps = {
   filtersDataTestIds: [],
-  classNameFilter: '',
+  classNameFilter: [],
 };
 
 export default ActiveFilters;

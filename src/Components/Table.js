@@ -9,8 +9,8 @@ const Table = () => {
   const {
     filteredPlanets,
     setFilterByName,
+    columnFilterOptions,
     optionsForFilters: {
-      columnFilterOptions,
       editableColumnFilterOptions,
       comparisonFilterOptions,
     },

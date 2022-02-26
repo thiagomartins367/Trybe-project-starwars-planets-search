@@ -27,7 +27,10 @@ LabelAndInput.propTypes = {
   labelContent: PropTypes.string.isRequired,
   inputType: PropTypes.string.isRequired,
   inputId: PropTypes.string.isRequired,
-  inputValue: PropTypes.string.isRequired,
+  inputValue: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]).isRequired,
   onChangeEvent: PropTypes.func,
   classNameComponent: PropTypes.string,
   dataTestId: PropTypes.string,
