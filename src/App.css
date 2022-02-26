@@ -60,9 +60,9 @@ tr {
   width: 50%;
 }
 
-.component-name-filter ,
-.component-column-filter ,
-.component-comparison-filter ,
+.component-name-filter, 
+.component-column-filter, 
+.component-comparison-filter, 
 .component-value-filter {
   display: inline-block;
 }
