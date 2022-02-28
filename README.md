@@ -1,7 +1,3 @@
-## Termos e acordos
-
-Ao iniciar este projeto, você concorda com as diretrizes do Código de Ética e Conduta e do Manual da Pessoa Estudante da Trybe.
-
 # Boas vindas ao repositório do projeto Starwars Planets Search em context api e hooks!
 ![img](projectIntro.gif)
 
@@ -17,7 +13,6 @@ Aqui você vai encontrar os detalhes de como estruturar o desenvolvimento do seu
 - [Entregáveis](#entregáveis)
   - [O que deverá ser desenvolvido](#o-que-deverá-ser-desenvolvido)
   - [Desenvolvimento](#desenvolvimento)
-  - [Data de entrega](#data-de-entrega)
 - [Instruções para entregar seu projeto:](#instruções-para-entregar-seu-projeto)
   - [Antes de começar a desenvolver](#antes-de-começar-a-desenvolver)
   - [Durante o desenvolvimento](#durante-o-desenvolvimento)
@@ -36,9 +31,6 @@ Aqui você vai encontrar os detalhes de como estruturar o desenvolvimento do seu
 
     `Requisitos bônus:`
     - [7 - Ordene as colunas de forma ascendente ou descendente](#7---ordene-as-colunas-de-forma-ascendente-ou-descendente)
-- [Depois de terminar o desenvolvimento (opcional)](#depois-de-terminar-o-desenvolvimento-opcional)
-- [Revisando um pull request](#revisando-um-pull-request)
-- [Avisos Finais](#avisos-finais)
 
 ---
 
@@ -67,16 +59,6 @@ Lembre-se que você pode consultar nosso conteúdo sobre Git & GitHub no Course 
 ## Desenvolvimento
 
 Este repositório já contém um _template_ de uma aplicação React criado e configurado. Após clonar o projeto e instalar as dependências (mais sobre isso abaixo), você **poderá** criara a sua branch e iniciar o trabalho.
-
----
-
-## Data de entrega
-
-  - Projeto individual.
-
-  - Serão `2` dias de projeto.
-
-  - Data de entrega para avaliação final do projeto: `04/03/2022 14:00`.
 
 ---
 
@@ -365,32 +347,5 @@ O que será verificado:
 
 ```
 ![img](req-7.gif)
-
----
-
-# Depois de terminar o desenvolvimento (opcional)
-
-Para **"entregar"** seu projeto, siga os passos a seguir:
-
-* Vá até a página **DO SEU** _Pull Request_, adicione a label de _"code-review"_ e marque seus colegas
-  * No menu à direita, clique no _link_ **"Labels"** e escolha a _label_ **code-review**
-  * No menu à direita, clique no _link_ **"Assignees"** e escolha **o seu usuário**
-  * No menu à direita, clique no _link_ **"Reviewers"** e digite `students`, selecione o time `tryber/students-sd-00`
-
----
-
-# Revisando um pull request
-
-Use o conteúdo sobre [Code Review](https://course.betrybe.com/real-life-engineer/code-review/) para te ajudar a revisar os _Pull Requests_.
-
----
-
-# Avisos Finais
-
-Ao finalizar e submeter o projeto, não se esqueça de avaliar sua experiência preenchendo o formulário. Leva menos de 3 minutos!
-
-Link: [Avaliação](https://be-trybe.typeform.com/to/ZTeR4IbH)
-
-O avaliador automático não necessariamente avalia seu projeto na ordem em que os requisitos aparecem no _README_. Isso acontece para deixar o processo de avaliação mais rápido. Então, não se assuste se isso acontecer, ok?
 
 ---
