@@ -20,11 +20,6 @@ const Table = () => {
     setIdFilterToBeDeleted,
     setTableSort,
   } = useContext(Context);
-  let trColor = false;
-  const alternatingColors = () => {
-    trColor = !trColor;
-    return trColor;
-  };
   return (
     <section>
       <section className="section-filters">
@@ -118,7 +113,7 @@ const Table = () => {
         </button>
       </section>
       <br />
-      <section>
+      <section className="section-ordination">
         <LabelAndSelect
           labelContent="Ordenar por: "
           selectId="column-sort"
@@ -207,11 +202,6 @@ const Table = () => {
           {filteredPlanets.map((planet) => (
             <tr
               key={ planet.name }
-              style={ {
-                backgroundColor: alternatingColors()
-                  ? 'rgb(192, 192, 192)'
-                  : 'wite',
-              } }
             >
               <td className="td" data-testid="planet-name">
                 { planet.name }

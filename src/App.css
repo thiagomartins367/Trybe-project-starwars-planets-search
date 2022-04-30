@@ -1,3 +1,7 @@
+body {
+  background-color: rgb(36, 38, 40);
+}
+
 .App {
   text-align: center;
 }
@@ -40,14 +44,24 @@
   }
 }
 
+th {
+  background-color: black;
+  color: white;
+}
+
 .td, .td-films, .td-planetUrl, th {
   border: 1px solid black;
 }
 
 .td {
   text-align: center;
+  color: white;
 
   /* background-color: rgb(192, 192, 192); */
+}
+
+a {
+  color: white;
 }
 
 tr {
@@ -58,6 +72,11 @@ tr {
   display: flex;
   justify-content: space-evenly;
   width: 50%;
+  color: white;
+}
+
+.section-ordination {
+  color: white;
 }
 
 .component-name-filter {
