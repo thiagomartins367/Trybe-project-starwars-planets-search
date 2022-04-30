@@ -47,17 +47,16 @@ Foi implementado uma lista com filtros de planetas do universo de Star Wars usan
 ## ANTES DE INICIALIZAR A APLICAÇÃO
 
 1. Clone o repositório
-  * `git clone git@github.com:tryber/sd-017-project-starwars-planets-search.git`
+  * `git clone git@github.com:THIAGOMARTINS367/Trybe-project-starwars-planets-search.git`
   * Entre na pasta do repositório que você acabou de clonar:
-    * `cd sd-017-project-starwars-planets-search`
+    * `cd Trybe-project-starwars-planets-search`
 
 2. Instale as dependências e inicialize o projeto
   * Instale as dependências:
     * `npm install`
   * Inicialize o projeto:
-    * `npm start` (uma nova página deve abrir no seu navegador com um texto simples)
-  * Verifique que os testes estão executando:
-    * `npm test` (os testes devem rodar e falhar)
+    * `npm start` (uma nova página deve abrir no seu navegador com a lista de planetas)
+    * ⚠️ Lembrando que já deve se estar dentro da pasta do projeto `Trybe-project-starwars-planets-search` ⚠️
 
 ---
 
