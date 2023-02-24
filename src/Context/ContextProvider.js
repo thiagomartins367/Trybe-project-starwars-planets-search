@@ -54,7 +54,7 @@ const ContextProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    FetchApi('https://swapi-trybe.herokuapp.com/api/planets/')
+    FetchApi('https://swapi.dev/api/planets/')
       .then((data) => {
         const dataResults = data.results.concat();
         dataResults.sort((a, b) => a.name.localeCompare(b.name)); // <--- | Essa linha de código foi retirada do stack overflow.
